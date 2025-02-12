@@ -10,7 +10,7 @@ document.querySelector('.follow-btn').addEventListener('click', function (event)
     heartIcon.classList.add('fa-heart-o');
   }
 });
-
+let members = [];
 document.addEventListener('DOMContentLoaded', function () {
   const commentForm = document.querySelector('.anime__details__form form');
   const commentInput = document.querySelector('.anime__details__form textarea');
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function saveComment(commentText) {
   const comments = JSON.parse(localStorage.getItem('comments')) || [];
   const newComment = {
-    username: members[i].name,
+    username: "익명",
     text: commentText,
     date: new Date().toLocaleString()
   };
@@ -59,7 +59,7 @@ function makeRow(data = {}) {
       <img src="img/anime/review-7.jfif" alt="">
   </div>
   <div class="anime__review__item__text">
-      <h6>${members[i].name}<span>${date}</span></h6>
+      <h6>${data.username} <span>${data.date}</span></h6>
       <p>${data.text}</p>
   </div>
 </div>`;
