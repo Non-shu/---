@@ -12,10 +12,18 @@ document.querySelector('.follow-btn').addEventListener('click', function (event)
 });
 let members = [];
 document.addEventListener('DOMContentLoaded', function () {
+  if (!localStorage.getItem('members')) {
+    const defaultMembers = [
+      { id: "um_mu11@naver.com", pw: "qwerqwer", name: "감스트" },
+      { id: "mandu@nate.com", pw: "1q2w3e4r", name: "유명한의유명한독침" },
+      { id: "alskfl@gmail.com", pw: "qqqq1111", name: "5코스트밸류덱" },
+      { id: "messibetter@than.ronaldo", pw: "asdfzxcv", name: "타코야끼 켄" },
+      { id: "siuuuu@daum.net", pw: "qazwsx11", name: "테이져건사냥꾼정상수" }
+    ];
+    localStorage.setItem('members', JSON.stringify(defaultMembers));
+  }
   const commentForm = document.querySelector('.anime__details__form form');
   const commentInput = document.querySelector('.anime__details__form textarea');
-  const commentSection = document.getElementById('commentSection');
-
   commentForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const commentText = commentInput.value.trim();
@@ -32,19 +40,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function saveComment(commentText) {
   const comments = JSON.parse(localStorage.getItem('comments')) || [];
+  const logInUser = JSON.parse(localStorage.getItem('loggedInUser'));
   const newComment = {
-    username: "익명",
+    username: logInUser ? loggedInUser.name : "익명",
     text: commentText,
     date: new Date().toLocaleString()
   };
-  comments.push(newComment);
-  loadComments();
+  comments.push(newComment);  
   localStorage.setItem('comments', JSON.stringify(comments));
+  loadComments();
 }
 
 
 function loadComments() {
-  document.querySelector('div.anime__details__review').innerHTML = '';
+  document.querySelector('div.review').innerHTML = '';
   const comments = JSON.parse(localStorage.getItem('comments')) || [];
 
   comments.forEach(comment => {
@@ -64,6 +73,66 @@ function makeRow(data = {}) {
   </div>
 </div>`;
 
-  const target = document.querySelector('div.anime__details__review');
+  const target = document.querySelector('div.review');
   target.insertAdjacentHTML('beforeend', str);
+}
+
+const MAX_COMMENTS = 10; // 최대 댓글 개수 설정
+
+function saveComment(commentText) {
+  let comments = JSON.parse(localStorage.getItem('comments')) || [];
+  const newComment = {
+    username: "익명",
+    text: commentText,
+    date: new Date().toLocaleString()
+  };
+
+  comments.push(newComment);
+  
+  // 댓글이 MAX_COMMENTS 초과되면 가장 오래된 댓글 삭제
+  if (comments.length > MAX_COMMENTS) {
+    comments.shift();
+  }
+
+  localStorage.setItem('comments', JSON.stringify(comments));
+  loadComments();
+}
+
+const COMMENTS_PER_PAGE = 5; // 한 페이지당 보여줄 댓글 개수
+let currentPage = 1;
+
+function loadComments() {
+  document.querySelector('div.review').innerHTML = '';
+  const comments = JSON.parse(localStorage.getItem('comments')) || [];
+  const totalPages = Math.ceil(comments.length / COMMENTS_PER_PAGE);
+  
+  const startIndex = (currentPage - 1) * COMMENTS_PER_PAGE;
+  const endIndex = startIndex + COMMENTS_PER_PAGE;
+  const paginatedComments = comments.slice(startIndex, endIndex);
+
+  paginatedComments.forEach(comment => {
+    makeRow(comment);
+  });
+
+  updatePagination(totalPages);
+}
+
+// 페이지네이션 버튼 업데이트
+function updatePagination(totalPages) {
+  const paginationContainer = document.getElementById('pagination');
+  paginationContainer.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    btn.classList.add('page-btn');
+    if (i === currentPage) btn.classList.add('active');
+
+    btn.addEventListener('click', function () {
+      currentPage = i;
+      loadComments();
+    });
+
+    paginationContainer.appendChild(btn);
+  }
 }

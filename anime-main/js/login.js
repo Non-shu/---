@@ -8,6 +8,8 @@ function handleLoginsubmit(event){
   for(let i = 0; i < members.length; i++){
     if(members[i].id == id && members[i].pw == pw){
       alert(`Welcome!! ${members[i].name}`);
+      localStorage.setItem('loggedInUser', JSON.stringify(members[i]));
+      window.location.href = "index.html";
       return;
     }
   }
