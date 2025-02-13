@@ -103,6 +103,8 @@ console.log("main.js 실행됨");
 
 })(jQuery);
 
+/*클릭이벤트 생성.
+*/
 document.querySelectorAll(".anime-item").forEach(item => {
     item.addEventListener("click", function() {
         let animeId = this.dataset.id;

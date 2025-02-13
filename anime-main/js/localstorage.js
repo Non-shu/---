@@ -1,4 +1,4 @@
-// 1️⃣ 애니메이션 데이터 저장 (한 번만 실행하면 됨)
+// 애니메이션 데이터 저장 
 const animeList = [
   {
     id: "001",
@@ -288,24 +288,25 @@ rating: "9.8"
   }
 ];
 
+
 // 데이터가 없을 경우 로컬스토리지에 저장
 if (!localStorage.getItem("animeList")) {
   localStorage.setItem("animeList", JSON.stringify(animeList));
 }
 
-// 2️⃣ URL에서 ID 가져오기
+//  URL에서 ID 가져오기
 function getAnimeIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("id");
 }
 
-// 3️⃣ 애니메이션 데이터 불러오기
+// 애니메이션 데이터 불러오기
 function getAnimeDetails(animeId) {
     const animeList = JSON.parse(localStorage.getItem("animeList")) || [];
     return animeList.find(a => a.id === animeId);
 }
 
-// 4️⃣ 페이지에 데이터 표시
+//  페이지에 데이터 표시
 function displayAnimeDetails() {
     const animeId = getAnimeIdFromURL();
     if (!animeId) {
@@ -326,7 +327,7 @@ function displayAnimeDetails() {
     document.getElementById("animeDescription").textContent = anime.description;
     document.getElementById("animeImage").style.backgroundImage = `url(${anime.image})`;
 
-    // 상세 정보 업데이트
+    // 상세 정보 
     document.getElementById("animeDetails").innerHTML = `
         <li><span>장르:</span> ${anime.genre}</li>
         <li><span>제작사:</span> ${anime.studio}</li>
@@ -335,11 +336,11 @@ function displayAnimeDetails() {
     `;
 }
 
-// 5️⃣ 페이지 로드 시 실행
+// 페이지 로드 시 실행
 document.addEventListener("DOMContentLoaded", function() {
-  displayAnimeDetails(); // 애니 정보를 가져와서 화면에 표시하는 함수
+  displayAnimeDetails(); //정보를 가져와서 화면에 표시하는 함수
 
-  // 클릭 이벤트 추가 (리스트에서 애니 선택 시 상세 페이지로 이동)
+
   document.querySelectorAll(".anime-item").forEach(item => {
       item.addEventListener("click", function(event) {
           let animeId = this.dataset.id;
@@ -352,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-// 현재 페이지에서 URL의 ID 가져오기
+
 const urlParams = new URLSearchParams(window.location.search);
 const animeId = urlParams.get("id");
 
