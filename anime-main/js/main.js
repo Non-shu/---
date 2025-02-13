@@ -1,3 +1,4 @@
+console.log("main.js 실행됨");
 /*  ---------------------------------------------------
     Theme Name: Anime
     Description: Anime video tamplate
@@ -101,3 +102,14 @@
     });
 
 })(jQuery);
+
+document.querySelectorAll(".anime-item").forEach(item => {
+    item.addEventListener("click", function() {
+        let animeId = this.dataset.id;
+        if (!animeId) {
+            console.error("애니메이션 ID가 없습니다.");
+            return;
+        }
+        window.location.href = `anime-details.html?id=${animeId}`;
+    });
+});
