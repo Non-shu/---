@@ -1,4 +1,3 @@
-console.log("main.js 실행됨");
 /*  ---------------------------------------------------
     Theme Name: Anime
     Description: Anime video tamplate
@@ -77,15 +76,7 @@ console.log("main.js 실행됨");
         autoplay: true,
         mouseDrag: false
     });
-
-    /*------------------
-        Video Player
-    --------------------*/
-    const player = new Plyr('#player', {
-        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'captions', 'settings', 'fullscreen'],
-        seekTime: 25
-    });
-
+  
     /*------------------
         Niceselect
     --------------------*/

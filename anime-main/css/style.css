@@ -985,6 +985,22 @@ margin-top: 10px;
 /*---------------------
   Anime Details
 -----------------------*/
+.delete-comment {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: #0b0c2a;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-comment:hover {
+  background-color: #16173d;
+}
 .related-works {
 	width: 66.6666% !important;
 	flex-grow: 1 !important;
@@ -1171,8 +1187,14 @@ margin-top: 10px;
 }
 
 .anime__review__item {
-	overflow: hidden;
-	margin-bottom: 15px;
+  position: relative;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #0b0c2a; 
+  color: white; 
+  display: flex;
+  align-items: center;
 }
 
 .anime__review__item__pic {
@@ -1194,16 +1216,16 @@ margin-top: 10px;
 }
 
 .anime__review__item__pic img {
-	height: 50px;
-	width: 50px;
-	border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 .anime__review__item__text {
-	overflow: hidden;
-	background: #1d1e39;
-	padding: 18px 30px 16px 20px;
-	border-radius: 10px;
+  flex-grow: 1;
+  padding: 10px;
+  background-color: #0b0c2a; 
+  border-radius: 8px;
 }
 
 .anime__review__item__text h6 {

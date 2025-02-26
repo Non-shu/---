@@ -56,28 +56,44 @@ function loadComments() {
   document.querySelector('div.review').innerHTML = '';
   const comments = JSON.parse(localStorage.getItem('comments')) || [];
 
-  comments.forEach(comment => {
-    makeRow(comment);
+  comments.forEach((comment, index) => {
+    makeRow(comment, index);
   });
 }
 
+function removeComment(index) {
+  let comments = JSON.parse(localStorage.getItem('comments')) || [];
+  comments.splice(index, 1); 
+  localStorage.setItem('comments', JSON.stringify(comments));
+  loadComments(); 
+}
+
+
 // row 생성.
-function makeRow(data = {}) {
-  const str = `<div class="anime__review__item">
-  <div class="anime__review__item__pic">
-      <img src="img/anime/review-7.jfif" alt="">
-  </div>
-  <div class="anime__review__item__text">
-      <h6>${data.username} <span>${data.date}</span></h6>
-      <p>${data.text}</p>
-  </div>
-</div>`;
+function makeRow(data = {}, index) {
+  const str = `<div class="anime__review__item" data-index="${index}" style="position: relative;">
+    <button class="delete-comment">❌</button>
+    <div class="anime__review__item__pic">
+        <img src="img/anime/review-7.jfif" alt="">
+    </div>
+    <div class="anime__review__item__text">
+        <h6>${data.username} <span>${data.date}</span></h6>
+        <p>${data.text}</p>
+    </div>
+  </div>`;
 
   const target = document.querySelector('div.review');
   target.insertAdjacentHTML('beforeend', str);
+
+  //삭제 추가
+  const deleteBtn = target.lastElementChild.querySelector('.delete-comment');
+  deleteBtn.addEventListener('click', function () {
+    removeComment(index);
+  });
 }
 
-const MAX_COMMENTS = 10; // 최대 댓글 개수 설정
+
+const MAX_COMMENTS = 10; // 최대 댓글 개수
 
 function saveComment(commentText) {
   let comments = JSON.parse(localStorage.getItem('comments')) || [];
@@ -89,7 +105,7 @@ function saveComment(commentText) {
 
   comments.push(newComment);
   
-  // 댓글이 MAX_COMMENTS 초과되면 가장 오래된 댓글 삭제
+  // 오래된 댓글 삭제
   if (comments.length > MAX_COMMENTS) {
     comments.shift();
   }
@@ -98,7 +114,7 @@ function saveComment(commentText) {
   loadComments();
 }
 
-const COMMENTS_PER_PAGE = 5; // 한 페이지당 보여줄 댓글 개수
+const COMMENTS_PER_PAGE = 5; // 한 페이지당 댓글
 let currentPage = 1;
 
 function loadComments() {
@@ -117,7 +133,7 @@ function loadComments() {
   updatePagination(totalPages);
 }
 
-// 페이지네이션 버튼 업데이트
+// 페이지네이션 버튼
 function updatePagination(totalPages) {
   const paginationContainer = document.getElementById('pagination');
   paginationContainer.innerHTML = '';
